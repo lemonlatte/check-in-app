@@ -3,6 +3,7 @@
     <h1>706 每日簽到表</h1>
     <h2>現在時間：{{ diplayTime }}</h2>
   </div>
+  <hr />
   <div class="home">
     <Student />
   </div>
