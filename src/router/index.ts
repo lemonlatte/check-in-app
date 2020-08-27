@@ -1,21 +1,32 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import Home from '../views/Home.vue'
-import Login from '../views/Login.vue'
+
 import { getCurrentUser } from '../firebase'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Home',
-    component: () => Home,
+    component: () => import("../views/Home.vue"),
     meta: {
       requiresAuth: true
-    }
+    },
+    props: {},
+    children: [
+      { path: '', redirect: 'checkin' },
+      {
+        path: 'checkin',
+        component: () => import("../views/CheckIn.vue"),
+      },
+      {
+        path: 'today',
+        component: () => import("../views/Today.vue"),
+      }
+    ]
   },
   {
     path: '/login',
     name: 'Login',
-    component: () => Login
+    component: () => import("../views/Login.vue"),
   }
   // {
   //   path: '/about',

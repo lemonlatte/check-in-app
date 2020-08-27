@@ -26,3 +26,17 @@
   color: #42b983;
 }
 </style>
+
+<script  lang="ts">
+import { Options, Vue } from "vue-class-component";
+import moment from "moment";
+
+@Options({
+  computed: {
+    diplayTime() {
+      return moment(this.currentTime).format("ll (dddd) a h:mm:ss");
+    },
+  },
+})
+export default class App extends Vue {}
+</script>
