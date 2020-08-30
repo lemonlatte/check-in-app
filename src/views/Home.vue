@@ -43,8 +43,8 @@ moment.locale("zh_tw");
 
     updateTime() {
       const now = new Date();
-      this.dayKey = `${now.setHours(0, 0, 0, 0)}`;
       this.currentTime = +now;
+      this.dayKey = `${now.setHours(0, 0, 0, 0)}`;
       setTimeout(this.updateTime, 1000);
     },
   },
