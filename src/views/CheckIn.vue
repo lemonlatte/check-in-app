@@ -1,19 +1,25 @@
 <template>
   <div class="students container">
-    <div class="row row-cols-5">
-      <div class="col" v-for="[sid, student] in students" v-bind:key="student">
-        <p>
-          {{ student.name }} ({{ sid }})
+    <div class="row row-cols-6">
+      <div class="col" v-for="(student, index) in studentsInSeat" v-bind:key="index">
+        <p v-if="student" class="border border-secondary rounded">
+          {{ student.name }} ({{ student.seatNumber }})
           <br />
           <button
             type="button"
             v-bind:class="buttonClass(student.checkinTime)"
             class="btn"
-            @click="checkin(sid)"
+            @click="checkin(student.seatNumber)"
           >簽到</button>
           <br />
           <span>{{ moment(student.checkinTime) }}&nbsp;</span>
         </p>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-2 border border-secondary rounded">
+        <p></p>
+        <p>講台</p>
       </div>
     </div>
   </div>
@@ -27,6 +33,16 @@ import { StudentRecord } from "../interfaces/student";
 import moment from "moment";
 
 @Options({
+  computed: {
+    studentsInSeat(): Map<string, StudentRecord> | null {
+      return this.seatArray.map((seatNumber: string) => {
+        if (seatNumber) {
+          return this.students.get(seatNumber);
+        }
+        return null;
+      });
+    },
+  },
   methods: {
     moment: function (checkinTime: number): string {
       if (checkinTime) {
@@ -43,9 +59,9 @@ import moment from "moment";
       };
     },
 
-    async checkin(seatNumber: number) {
+    async checkin(seatNumber: string) {
       const data = {
-        [`${seatNumber}`]: +new Date(),
+        [seatNumber]: +new Date(),
       };
 
       try {
@@ -57,9 +73,41 @@ import moment from "moment";
   },
 
   props: {
-    students: new Map<string, StudentRecord>(),
+    students: Map,
     lateTime: Number,
     dayKey: String,
+  },
+
+  data() {
+    return {
+      seatArray: [
+        "",
+        "6",
+        "11",
+        "18",
+        "",
+        "",
+        "2",
+        "5",
+        "10",
+        "17",
+        "23",
+        "25",
+        "1",
+        "4",
+        "9",
+        "16",
+        "22",
+        "24",
+        "",
+        "3",
+        "7",
+        "15",
+        "21",
+        "",
+        "",
+      ],
+    };
   },
 })
 export default class Student extends Vue {}
