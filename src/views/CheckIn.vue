@@ -7,9 +7,10 @@
           <br />
           <button
             type="button"
-            v-bind:class="buttonClass(student.checkinTime)"
+            :class="buttonClass(student.checkinTime)"
             class="btn"
-            @click="checkin(student.seatNumber)"
+            :disabled="student.checkinTime"
+            @click="confirmCheckin(student.seatNumber)"
           >簽到</button>
           <br />
           <span>{{ moment(student.checkinTime) }}&nbsp;</span>
@@ -20,6 +21,31 @@
       <div class="col-2 border border-secondary rounded">
         <p></p>
         <p>講台</p>
+      </div>
+    </div>
+  </div>
+  <div :class="{'modal-backdrop': openConfirm,'show': openConfirm}"></div>
+  <div
+    class="modal"
+    tabindex="-1"
+    :style="{'display': openConfirm ? 'block' : 'none'}"
+    role="dialog"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" v-if="targetSeatNumber">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{ students.get(targetSeatNumber).name }}簽到</h5>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid" v-if="targetSeatNumber">
+            <div class="row justify-content-center">
+              <div class="col">
+                <button type="button" class="mr-2 btn btn-primary" @click="checkin">確認</button>
+                <button type="button" class="btn btn-secondary" @click="closeConfirm">取消</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -53,15 +79,25 @@ import moment from "moment";
 
     buttonClass(checkinTime: number) {
       return {
-        "btn-secondary": checkinTime == undefined,
+        "btn-secondary": checkinTime === undefined,
         "btn-danger": checkinTime >= this.lateTime,
         "btn-success": checkinTime < this.lateTime,
       };
     },
 
-    async checkin(seatNumber: string) {
+    confirmCheckin(seatNumber: string) {
+      this.targetSeatNumber = seatNumber;
+      this.openConfirm = true;
+    },
+
+    closeConfirm() {
+      this.openConfirm = false;
+      this.targetSeatNumber = "";
+    },
+
+    async checkin() {
       const data = {
-        [seatNumber]: +new Date(),
+        [this.targetSeatNumber]: +new Date(),
       };
 
       try {
@@ -69,6 +105,7 @@ import moment from "moment";
       } catch (err) {
         await checkinsCollection.doc(this.dayKey).set(data);
       }
+      this.closeConfirm();
     },
   },
 
@@ -80,6 +117,8 @@ import moment from "moment";
 
   data() {
     return {
+      targetSeatNumber: "",
+      openConfirm: false,
       seatArray: [
         "",
         "6",
