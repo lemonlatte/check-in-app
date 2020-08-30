@@ -5,20 +5,20 @@ import { getCurrentUser } from '../firebase'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Home',
     component: () => import("../views/Home.vue"),
     meta: {
       requiresAuth: true
     },
-    props: {},
     children: [
-      { path: '', redirect: 'checkin' },
+      { path: '', name: 'Home', redirect: 'checkin' },
       {
         path: 'checkin',
+        name: 'Checkin',
         component: () => import("../views/CheckIn.vue"),
       },
       {
         path: 'today',
+        name: 'Today',
         component: () => import("../views/Today.vue"),
       }
     ]

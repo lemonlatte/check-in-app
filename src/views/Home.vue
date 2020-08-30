@@ -6,10 +6,10 @@
     </div>
     <ul class="nav nav-tabs justify-content-center">
       <li class="nav-item">
-        <router-link to="/checkin" active-class="active" class="nav-link">簽到</router-link>
+        <router-link :to="{ name: 'Checkin'}" active-class="active" class="nav-link">簽到</router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/today" active-class="active" class="nav-link">今日出席</router-link>
+        <router-link :to="{ name: 'Today'}" active-class="active" class="nav-link">今日出席</router-link>
       </li>
     </ul>
     <p></p>

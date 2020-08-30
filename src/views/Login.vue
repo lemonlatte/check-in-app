@@ -44,9 +44,7 @@ import { auth } from "../firebase";
       auth
         .signInWithEmailAndPassword(this.email, this.password)
         .then(() => {
-          this.$router.replace({
-            name: "Home",
-          });
+          this.$router.push({ name: "Home" });
         })
         .catch((err) => {
           alert(err.message);
