@@ -1,29 +1,20 @@
 <template>
   <div class="today container">
     <h3>今日出席狀況</h3>
-    <p>準時</p>
+    <h5>準時</h5>
     <dl class="row">
-      <dd
-        class="col-4"
-        v-for="student in onTimeStudents"
-        v-bind:key="student"
-      >{{ student.name }} ({{ student.seatNumber}}) - {{ moment(student.checkinTime) }}</dd>
+      <p v-if="!onTimeStudents.length" class="col-12">無</p>
+      <dd class="col-4" v-for="student in onTimeStudents" v-bind:key="student">{{ student.name }} ({{ student.id}}) - {{ moment(student.checkinTime) }}</dd>
     </dl>
-    <p>遲到</p>
+    <h5>遲到</h5>
     <dl class="row">
-      <dd
-        class="col-4"
-        v-for="student in lateStudents"
-        v-bind:key="student"
-      >{{ student.name }} ({{ student.seatNumber}}) - {{ moment(student.checkinTime) }}</dd>
+      <p v-if="!lateStudents.length" class="col-12">無</p>
+      <dd class="col-4" v-for="student in lateStudents" v-bind:key="student">{{ student.name }} ({{ student.id}}) - {{ moment(student.checkinTime) }}</dd>
     </dl>
-    <p>缺席</p>
+    <h5>缺席</h5>
     <dl class="row">
-      <dd
-        class="col-4"
-        v-for="student in absentStudents"
-        v-bind:key="student"
-      >{{ student.name }} ({{ student.seatNumber}})</dd>
+      <p v-if="!absentStudents.length" class="col-12">無</p>
+      <dd class="col-4" v-for="student in absentStudents" v-bind:key="student">{{ student.name }} ({{ student.id}})</dd>
     </dl>
   </div>
 </template>

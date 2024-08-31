@@ -1,5 +1,13 @@
 export interface StudentRecord {
-  seatNumber: string;
+  id: string;
   name: string;
   checkinTime: number;
+}
+
+export interface GroupRecord {
+  member: number[];
+}
+
+export interface DayGroupRecord {
+  group: string;
 }

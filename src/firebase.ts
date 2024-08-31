@@ -19,4 +19,6 @@ export function getCurrentUser() {
 }
 // collection references
 export const studentsCollection = db.collection('students')
+export const groupsCollection = db.collection('groups')
+export const dayGroupCollection = db.collection('dayGroup')
 export const checkinsCollection = db.collection('checkins')
